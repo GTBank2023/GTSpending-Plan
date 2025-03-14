@@ -1,0 +1,157 @@
+/* Updated CSS with Savings Coach styling */
+
+/* ------------------ Global Styles ------------------ */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4; /* Changed from #f7f7f7 */
+  margin: 0;
+  padding: 20px;
+}
+
+header {
+  background-color: #dc4405;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+/* ------------------ Container ------------------ */
+.container {
+  max-width: 800px;
+  margin: auto;
+  background: #fff;
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Updated to match guide code */
+}
+
+/* ------------------ Headings ------------------ */
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #dc4405; /* Accent color */
+}
+
+h3, h4 {
+  margin-top: 20px;
+  color: #333;
+}
+
+/* ------------------ Sections & Tables ------------------ */
+section {
+  margin-bottom: 30px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+/* ------------------ Form Inputs ------------------ */
+input[type="number"] {
+  width: 100%;
+  padding: 10px; /* Increased from 8px */
+  box-sizing: border-box;
+  border: 1px solid #ddd; /* Changed from #ccc */
+  border-radius: 5px; /* Changed from 4px */
+  background-color: #f5f5f5;
+  color: #777;
+}
+
+input[type="range"] {
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* ------------------ Output & CTA ------------------ */
+.output {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.cta {
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* ------------------ Button Styles ------------------ */
+button {
+  padding: 10px 20px;
+  margin: 10px 5px;
+  background-color: #dc4405;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button:hover {
+  background-color: #636b70;
+}
+
+/* ------------------ Additional Button Variants ------------------ */
+.add-button {
+  margin-top: 10px;
+  padding: 6px 12px;
+  background-color: #dc4405;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.remove-button {
+  padding: 6px 12px;
+  background-color: #dc4405;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* ------------------ Total Spending Display ------------------ */
+#totalSpendingDisplay {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 15px;
+  color: #333;
+}
+
+/* ------------------ Progress Bar ------------------ */
+.progress-bar {
+  background: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+  height: 20px;
+  margin-bottom: 10px;
+}
+
+.bar {
+  height: 100%;
+  background-color: #dc4405; /* Changed from #28a745 to match accent color */
+  width: 0;
+}
+
+/* ------------------ Hidden Elements ------------------ */
+.hidden {
+  display: none;
+}
+
+/* ------------------ Insight Messages ------------------ */
+#spendingReflection,
+#insightMessage {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 15px;
+}

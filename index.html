@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spending Plan - Smart Spending Guide</title>
+  <style>
+    /* ------------------ Global Styles ------------------ */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #dc4405;
+    }
+    h3, h4 {
+      margin-top: 20px;
+      color: #333;
+    }
+    section {
+      margin-bottom: 30px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f5f5f5;
+      color: #777;
+    }
+    input[type="range"] {
+      width: 100%;
+      margin-top: 10px;
+    }
+    .output {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .cta {
+      margin-top: 20px;
+      text-align: center;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px 5px;
+      background-color: #dc4405;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button:hover {
+      background-color: #636b70;
+    }
+    .add-button, .remove-button {
+      padding: 6px 12px;
+      background-color: #dc4405;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #totalSpendingDisplay {
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 15px;
+      color: #333;
+    }
+    .progress-bar {
+      background: #eee;
+      border-radius: 4px;
+      overflow: hidden;
+      height: 20px;
+      margin-bottom: 10px;
+    }
+    .bar {
+      height: 100%;
+      background-color: #dc4405;
+      width: 0;
+    }
+    .hidden {
+      display: none;
+    }
+    #insightMessage {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Spending Plan - Smart Spending Guide</h2>
+    
+    <!-- Step 1: Enter Your Expenses -->
+    <section id="enter-expenses">
+      <h3>Enter Your Expenses</h3>
+      <p>Let’s get a clear picture of where your money is going. Add your monthly expenses below!</p>
+      
+      <!-- Fixed Expenses Section -->
+      <h4>Fixed Expenses</h4>
+      <table id="fixedExpenseTable">
+        <tr>
+          <th>Expense (Fixed)</th>
+          <th>Estimated Amount</th>
+          <th>Actual Spent</th>
+          <th>Action</th>
+        </tr>
+        <tr>
+          <td>Rent/Mortgage</td>
+          <td><input type="number" placeholder="Enter amount" class="fixed-expense" /></td>
+          <td><input type="number" placeholder="Enter amount" class="actual-expense" /></td>
+          <td><button class="remove-button" onclick="removeRow(this)">Remove</button></td>
+        </tr>
+      </table>
+      <button class="add-button" onclick="addExpenseRowWithListeners('fixed')">Add Fixed Expense</button>
+      
+      <!-- Optional Expenses Section -->
+      <h4>Optional Expenses</h4>
+      <table id="optionalExpenseTable">
+        <tr>
+          <th>Expense (Optional)</th>
+          <th>Estimated Amount</th>
+          <th>Actual Spent</th>
+          <th>Action</th>
+        </tr>
+        <tr>
+          <td>Entertainment</td>
+          <td><input type="number" placeholder="Enter amount" class="optional-expense" /></td>
+          <td><input type="number" placeholder="Enter amount" class="actual-expense" /></td>
+          <td><button class="remove-button" onclick="removeRow(this)">Remove</button></td>
+        </tr>
+      </table>
+      <button class="add-button" onclick="addExpenseRowWithListeners('optional')">Add Optional Expense</button>
+      
+      <!-- Calculate Spending Button -->
+      <button class="cta" onclick="calculateAndProceed()">Calculate My Spending</button>
+    </section>
+    
+    <!-- Step 2: Reflect on Your Spending -->
+    <section id="reflect-spending" class="hidden">
+      <h3>Reflect on Your Spending</h3>
+      <p>Your total spending is <span id="reflectedTotal">TZS 0.00</span>.</p>
+      
+      <!-- Infographic Breakdown -->
+      <div id="breakdown">
+        <h4>Spending Breakdown</h4>
+        <div>
+          <p>Fixed Expenses: <span id="fixedPercentage">0%</span></p>
+          <div class="progress-bar">
+            <div id="fixedBar" class="bar"></div>
+          </div>
+        </div>
+        <div>
+          <p>Optional Expenses: <span id="optionalPercentage">0%</span></p>
+          <div class="progress-bar">
+            <div id="optionalBar" class="bar"></div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Insight Message -->
+      <p id="insightMessage">
+        It appears that a large portion of your spending is on fixed expenses. Consider reviewing these costs for potential savings opportunities.
+      </p>
+      <button class="cta" onclick="showSection('savings-adjustment')">Proceed</button>
+    </section>
+    
+    <!-- Step 3: Savings Adjustment -->
+    <section id="savings-adjustment" class="hidden">
+      <h3>Save While You Spend</h3>
+      <p>Did you know you can save even as you spend? Try adjusting your savings goal below. Even saving just 5% of your spending could give you extra funds each month!</p>
+      <input type="range" min="1" max="5" value="1" class="slider" id="savingsSlider">
+      <div class="output">
+        <p>Save <span id="sliderValue">1</span>% of your spending.</p>
+      </div>
+      <p id="savingsMessage">Based on your total spending, you could save TZS 0.00 this month.</p>
+      <button class="cta" onclick="showSection('spend-to-save')">Next</button>
+    </section>
+    
+    <!-- Step 4: Spend to Save Account CTA -->
+    <section id="spend-to-save" class="hidden">
+      <h3>Want an Easy Way to Save?</h3>
+      <p>Our “Spend to Save” account automatically moves a percentage of your spending into savings for you. It's a smart, effortless way to boost your savings while you continue living your life.</p>
+      
+      <div class="cta">
+        <button id="learnMoreBtn" type="button">Learn More</button>
+        <button id="openAccountBtn" type="button">Open Account</button>
+      </div>
+    </section>
+  </div>
+  
+  <script>
+    // --- JavaScript Code ---
+    const sections = [
+      "enter-expenses",
+      "reflect-spending",
+      "savings-adjustment",
+      "spend-to-save"
+    ];
+
+    function hideAllSections() {
+      sections.forEach(sectionId => {
+        document.getElementById(sectionId).classList.add("hidden");
+      });
+    }
+
+    function showSection(sectionId) {
+      hideAllSections();
+      document.getElementById(sectionId).classList.remove("hidden");
+    }
+
+    function addExpenseRow(type) {
+      const table = document.getElementById(`${type}ExpenseTable`);
+      const newRow = table.insertRow(table.rows.length);
+      newRow.innerHTML = `
+        <td><input type="text" placeholder="Enter expense" class="${type}-expense" /></td>
+        <td><input type="number" placeholder="Enter amount" class="expense-amount" /></td>
+        <td><input type="number" placeholder="Enter amount" class="actual-expense" /></td>
+        <td><button class="remove-button" onclick="removeRow(this)">Remove</button></td>
+      `;
+    }
+
+    function addExpenseRowWithListeners(type) {
+      addExpenseRow(type);
+      attachExpenseListeners();
+      updateAll(); // Update totals after adding a row
+    }
+
+    function removeRow(button) {
+      const row = button.parentNode.parentNode;
+      row.parentNode.removeChild(row);
+      updateAll(); // Update totals after removal
+    }
+
+    function calculateTotalSpending() {
+      let total = 0;
+      document.querySelectorAll(".actual-expense").forEach(expense => {
+        total += parseFloat(expense.value) || 0;
+      });
+      return total;
+    }
+
+    function calculateFixedSpending() {
+      let total = 0;
+      document.querySelectorAll(".fixed-expense").forEach(expense => {
+        total += parseFloat(expense.value) || 0;
+      });
+      return total;
+    }
+
+    function calculateOptionalSpending() {
+      let total = 0;
+      document.querySelectorAll(".optional-expense").forEach(expense => {
+        total += parseFloat(expense.value) || 0;
+      });
+      return total;
+    }
+
+    function updateProgressBar(fixed, optional, total) {
+      const fixedBar = document.getElementById("fixedBar");
+      const optionalBar = document.getElementById("optionalBar");
+      if (total > 0) {
+        fixedBar.style.width = `${(fixed / total) * 100}%`;
+        optionalBar.style.width = `${(optional / total) * 100}%`;
+      } else {
+        fixedBar.style.width = "0%";
+        optionalBar.style.width = "0%";
+      }
+    }
+
+    function updateTotalSpendingDisplay() {
+      const totalSpending = calculateTotalSpending();
+      document.getElementById("reflectedTotal").textContent = `TZS ${totalSpending.toFixed(2)}`;
+      const fixedSpending = calculateFixedSpending();
+      const optionalSpending = calculateOptionalSpending();
+      updateProgressBar(fixedSpending, optionalSpending, totalSpending);
+    }
+
+    function updateSavings() {
+      const slider = document.getElementById("savingsSlider");
+      document.getElementById("sliderValue").textContent = slider.value;
+      const savingsPercent = parseFloat(slider.value);
+      const totalSpending = calculateTotalSpending();
+      const potentialSavings = (totalSpending * savingsPercent) / 100;
+      document.getElementById("savingsMessage").textContent =
+        `Based on your total spending of $${totalSpending.toFixed(2)}, you could save $${potentialSavings.toFixed(2)} this month. Adjust your spending and savings percentage to see how it works!`;
+    }
+
+    function updateAll() {
+      updateTotalSpendingDisplay();
+      updateSavings();
+    }
+
+    function attachExpenseListeners() {
+      document.querySelectorAll(".actual-expense").forEach(input => {
+        input.removeEventListener("input", updateAll);
+        input.addEventListener("input", updateAll);
+      });
+    }
+
+    // Initial listener attachment
+    attachExpenseListeners();
+    document.getElementById("savingsSlider").addEventListener("input", updateAll);
+
+    function calculateAndProceed() {
+      updateAll();
+      showSection("reflect-spending");
+    }
+
+    // Event listeners for external links
+    document.getElementById("learnMoreBtn").addEventListener("click", function() {
+      window.location.href = "https://bit.ly/3DBkfRA";
+    });
+    document.getElementById("openAccountBtn").addEventListener("click", function() {
+      window.location.href = "https://linktr.ee/gtworldtanzania";
+    });
+  </script>
+</body>
+</html>
